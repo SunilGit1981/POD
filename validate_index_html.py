@@ -8,52 +8,32 @@ class TestIndexHtml(unittest.TestCase):
         with open('index.html', 'r') as file:
             self.html_content = file.read()
 
-    def test_doctype_declaration(self):
-        self.assertIn('<!DOCTYPE html>', self.html_content)
-
-    def test_html_tag(self):
-        self.assertIn('<html lang="en">', self.html_content)
-
-    def test_head_tag(self):
-        self.assertIn('<head>', self.html_content)
-
-    def test_meta_tags(self):
-        self.assertIn('<meta charset="UTF-8">', self.html_content)
-        self.assertIn('<meta name="viewport" content="width=device-width, initial-scale=1.0">', self.html_content)
-
-    def test_title_tag(self):
-        self.assertIn('<title>Responsive Dark Theme</title>', self.html_content)
-
-    def test_style_tag(self):
-        self.assertIn('<style>', self.html_content)
-
-    def test_body_tag(self):
-        self.assertIn('<body>', self.html_content)
-
-    def test_header_tag(self):
-        self.assertIn('<header>', self.html_content)
-
-    def test_main_tag(self):
-        self.assertIn('<main>', self.html_content)
-
-    def test_footer_tag(self):
-        self.assertIn('<footer>', self.html_content)
-
-    def test_copyright_statement(self):
-        self.assertIn('&#169; 2024 Responsive Dark Theme. All rights reserved.', self.html_content)
-
-    def test_responsive_css(self):
+    def test_html_structure(self):
         soup = BeautifulSoup(self.html_content, 'html.parser')
-        style_tag = soup.find('style')
-        self.assertIsNotNone(style_tag)
-        self.assertIn('@media only screen and (max-width: 768px)', style_tag.text)
+        self.assertIsNotNone(soup.find('header'))
+        self.assertIsNotNone(soup.find('main'))
+        self.assertIsNotNone(soup.find('footer'))
 
-    def test_dark_layout(self):
+    def test_login_form(self):
         soup = BeautifulSoup(self.html_content, 'html.parser')
-        style_tag = soup.find('style')
-        self.assertIsNotNone(style_tag)
-        self.assertIn('background-color: #2f2f2f', style_tag.text)
-        self.assertIn('color: #ffffff', style_tag.text)
+        login_form = soup.find('div', class_='login-form')
+        self.assertIsNotNone(login_form)
+        self.assertIsNotNone(login_form.find('input', id='user-id'))
+        self.assertIsNotNone(login_form.find('input', id='password'))
+        self.assertIsNotNone(login_form.find('button', type='button'))
+
+    def test_input_fields(self):
+        soup = BeautifulSoup(self.html_content, 'html.parser')
+        user_id_input = soup.find('input', id='user-id')
+        password_input = soup.find('input', id='password')
+        self.assertEqual(user_id_input['type'], 'text')
+        self.assertEqual(password_input['type'], 'password')
+
+    def test_button(self):
+        soup = BeautifulSoup(self.html_content, 'html.parser')
+        button = soup.find('button', type='button')
+        self.assertEqual(button['type'], 'button')
+        self.assertEqual(button.text, 'Login')
 
 if __name__ == '__main__':
     unittest.main()
