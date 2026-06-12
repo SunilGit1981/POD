@@ -1,4 +1,4 @@
-def factorial(n):
+def factorial(n: int) -> int:
     """
     Calculates the factorial of a given non-negative integer.
 
@@ -10,10 +10,10 @@ def factorial(n):
     - The factorial of 1 (1!) is 1.
 
     Args:
-        n (int): The non-negative integer for which to calculate the factorial.
+        n: An integer for which to calculate the factorial.
 
     Returns:
-        int: The factorial of n.
+        The factorial of n.
 
     Raises:
         ValueError: If n is a negative number.
@@ -21,13 +21,11 @@ def factorial(n):
     """
     if not isinstance(n, int):
         raise TypeError("Input must be an integer.")
-
     if n < 0:
         raise ValueError("Factorial is not defined for negative numbers.")
     elif n == 0 or n == 1:
         return 1
     else:
-        # Calculate factorial iteratively for n > 1
         result = 1
         for i in range(2, n + 1):
             result *= i
