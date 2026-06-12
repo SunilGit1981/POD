@@ -69,18 +69,6 @@
         .login-form button:hover {
             background-color: #3e8e41;
         }
-        .google-btn {
-            width: 100%;
-            height: 40px;
-            background-color: #dd4b39;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .google-btn:hover {
-            background-color: #c23321;
-        }
         .gmail-btn {
             width: 100%;
             height: 40px;
@@ -104,48 +92,20 @@
             <input type="text" id="user-id" placeholder="User ID">
             <input type="password" id="password" placeholder="Password">
             <button type="button">Login</button>
-            <button class="google-btn" id="google-signin-btn">Sign in with Google</button>
             <button class="gmail-btn" id="gmail-signin-btn">Sign in with Gmail</button>
         </div>
         <p style="margin-top: 20px;">This is a responsive website.</p>
-        <div id="google-signin-status" style="margin-top: 10px;"></div>
         <div id="gmail-signin-status" style="margin-top: 10px;"></div>
     </main>
     <footer>
         <p>&#169; 2024 Responsive Theme. All rights reserved.</p>
     </footer>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        function handleCredentialResponse(response) {
-            const responsePayload = decodeJwtResponse(response.credential);
-            console.log('ID: ' + responsePayload.sub);
-            console.log('Full Name: ' + responsePayload.name);
-            console.log('Given Name: ' + responsePayload.given_name);
-            console.log('Family Name: ' + responsePayload.family_name);
-            console.log('Image URL: ' + responsePayload.picture);
-            console.log('Email: ' + responsePayload.email);
-            document.getElementById('google-signin-status').innerHTML = 'Signed in as ' + responsePayload.name;
-        }
-
-        function decodeJwtResponse(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace('-', '+').replace('_', '/');
-            return JSON.parse(window.atob(base64));
-        }
-
         function handleGmailAuthentication() {
             window.location.href = 'https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/gmail.send&response_type=code&redirect_uri=http://localhost:8080&client_id=YOUR_CLIENT_ID';
         }
 
         window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: 'YOUR_CLIENT_ID',
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById('google-signin-btn'),
-                { theme: 'outline', size: 'large' }
-            );
             document.getElementById('gmail-signin-btn').addEventListener('click', function(){
                 handleGmailAuthentication();
             });
